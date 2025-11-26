@@ -74,22 +74,62 @@ const OrganizationRegister = ({role}) => {
           <input type="text" placeholder='Enter Your Name' onChange={(e) => { onChangeHandlerName(e) }} value={nameOrganization} required />
           <input type="text" placeholder='Enter Registration Number' onChange={(e)=>{onChangeHandlerRegNum(e)}} value={regNumOrganization} required/>
           <input type="text" placeholder='Address of Organization' onChange={(e)=>{onChangeHandlerAddress(e)}} value={AddressOrganization} required/>
-          <div className="send-otp">
-            <input type="text" placeholder='Enter Official Mail' onChange={(e) => { onChangeHandlerEmail(e) }} value={emailOrganization} required />
-            <button>Send&nbsp;OTP</button>
-          </div>
-          <div className="verify-otp">
-            <input type="text" placeholder='Enter OTP'  onChange={(e) => { onChangeHandlerEmailOtp(e) }} value={otpEmail} required />
-            <button>Verify&nbsp;OTP</button>
-          </div>
-          <div className="send-otp">
-            <input type="text" placeholder='Enter Contact Number' onChange={(e) => { onChangeHandlerMobile(e) }} value={mobileOrganization} required />
-            <button>Send&nbsp;OTP</button>
-          </div>
-          <div className="verify-otp">
-            <input type="text" placeholder='Enter OTP'  onChange={(e) => { onChangeHandlerMobileOtp(e) }} value={otpPhone} required />
-            <button>Verify&nbsp;OTP</button>
-          </div>
+           <div className="send-otp">
+        <input
+          type="email"
+          placeholder="Enter Your Email"
+          value={emailStudent}
+          onChange={(e) => setEmailStudent(e.target.value)}
+          required
+        />
+        <button type="button" onClick={sendEmailOtpBtn}>
+          Send OTP
+        </button>
+      </div>
+
+      <div className="verify-otp">
+        <input
+          type="text"
+          placeholder="Enter Email OTP"
+          value={otpEmail}
+          onChange={(e) => setOtpEmail(e.target.value)}
+          required
+        />
+        <button type="button" onClick={verifyEmailOtpBtn}>
+          Verify OTP
+        </button>
+      </div>
+
+      <div className="send-otp">
+        <input
+          type="text"
+          placeholder="Enter Mobile"
+          value={mobileStudent}
+          onChange={(e) => setMobileStudent(e.target.value)}
+          required
+        />
+        
+        <button id="sendMobileOtpBtn" type="button" onClick={sendMobileOtpBtn} >
+          Send OTP
+        </button>
+      </div>
+
+  
+      <div id="recaptcha-container"></div>
+
+      <div className="verify-otp">
+        <input
+          type="text"
+          placeholder="Enter Mobile OTP"
+          value={otpPhone}
+          onChange={(e) => setOtpPhone(e.target.value)}
+          required
+        />
+        <button type="button" onClick={verifyMobileOtpBtn}>
+          Verify OTP
+        </button>
+      </div>
+
           <input type="text" placeholder='Enter Password' onChange={(e) => { onChangeHandlerPassword(e) }} value={passwordOrganization} required />
           <button type='submit'> Submit</button>
   

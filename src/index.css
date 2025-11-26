@@ -247,6 +247,8 @@ html {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  box-sizing: border-box;
+  overflow-x: hidden;
   gap: 20px;
   padding-inline: 5vw;
   padding-top: 60px;
@@ -328,8 +330,10 @@ html {
 
 /* register  */
 .register-main {
-  width: 100vw;
 
+width: 100vw;
+
+ overflow-x: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -352,8 +356,8 @@ html {
   flex-direction: column;
   gap: 20px;
   max-width: 400px;
-  width: 100%;
-
+  width: auto;
+width: 100%;
   padding-block: 30px;
   border: 2px solid black;
   border-radius: 5px;
