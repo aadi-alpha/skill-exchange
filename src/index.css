@@ -362,7 +362,7 @@ width: 100%;
   padding-block: 30px;
   border: 2px solid black;
   border-radius: 5px;
-
+padding-inline: clamp(10px,2vw,20px);
   align-items: center;
 
 }
