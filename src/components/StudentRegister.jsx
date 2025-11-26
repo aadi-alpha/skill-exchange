@@ -43,8 +43,9 @@ const setupRecaptcha = () => {
 
   // ---------- SEND EMAIL OTP ----------
   async function sendEmailOtpBtn() {
+ 
     if (!emailStudent) return alert("Enter email");
-
+   setLoader(true)
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedEmailOtp(otp);
 
@@ -66,12 +67,14 @@ const setupRecaptcha = () => {
         alert("Email OTP sent!");
       })
       .catch((err) => alert("Email send error: " + err.text));
+      setLoader(false)
   }
 
   // ---------- VERIFY EMAIL OTP ----------
   async function verifyEmailOtpBtn() {
+    
     if (!otpEmail) return alert("Enter OTP");
-
+setLoader(true)
     const docSnap = await getDoc(doc(db, "emailOtps", emailStudent));
     if (!docSnap.exists()) return alert("No OTP found for this email");
 
@@ -81,12 +84,14 @@ const setupRecaptcha = () => {
     } else {
       alert("Incorrect OTP");
     }
+    setLoader(false)
   }
 
   // ---------- SEND PHONE OTP ----------
 function sendMobileOtpBtn() {
+  
   if (!mobileStudent) return alert("Enter mobile number");
-
+setLoader(true)
   setupRecaptcha();
   const appVerifier = window.recaptchaVerifier;
 
@@ -99,13 +104,15 @@ function sendMobileOtpBtn() {
       console.error(error);
       alert("Error sending OTP: " + error.message);
     });
+    setLoader(false)
 }
 
 
   // ---------- VERIFY PHONE OTP ----------
 function verifyMobileOtpBtn() {
-  if (!confirmationResult) return alert("Please send OTP first");
 
+  if (!confirmationResult) return alert("Please send OTP first");
+  setLoader(true)
   confirmationResult
     .confirm(otpPhone)
     .then((result) => {
@@ -120,6 +127,7 @@ function verifyMobileOtpBtn() {
       console.error(error);
       alert("Invalid OTP");
     });
+    setLoader(false)
 }
 
 
@@ -148,7 +156,7 @@ function verifyMobileOtpBtn() {
     setOtpEmail("");
     setOtpPhone("");
   }
-
+const [loader,setLoader]=useState(false)
   return (
     <form className="registerForm" onSubmit={onSubmitHandler}>
       <h3>Registering as {role}</h3>
@@ -226,7 +234,9 @@ function verifyMobileOtpBtn() {
       />
 
       <button type="submit">Submit</button>
+      {loader==true&&<Loader />}
     </form>
+    
   );
 };
 

@@ -1,4 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
+import emailjs from "@emailjs/browser";
+
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db } from "../authFirebase/firebase";
+import { auth } from "../authFirebase/firebase";
+import { RecaptchaVerifier } from "firebase/auth";
+import { signInWithPhoneNumber } from "firebase/auth";
+import Loader from "./loader";
 
 const MentorRegister = ({role}) => {
      const [nameMentor, setNameMentor] = useState('')
@@ -53,7 +61,7 @@ const MentorRegister = ({role}) => {
 
   // -------------------- INIT ReCAPTCHA ----------------------
 
-
+const [loader,setLoader]=useState(false)
   // Init EmailJS
   useEffect(() => {
     emailjs.init("O1eqMF__l75Le_ffM"); // your public key
@@ -73,13 +81,14 @@ const setupRecaptcha = () => {
 
   // ---------- SEND EMAIL OTP ----------
   async function sendEmailOtpBtn() {
-    if (!emailStudent) return alert("Enter email");
+    setLoader(true)
+    if (!emailMentor) return alert("Enter email");
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     setGeneratedEmailOtp(otp);
 
     // Store otp in Firestore
-    await setDoc(doc(db, "emailOtps", emailStudent), {
+    await setDoc(doc(db, "emailOtps", emailMentor), {
       otp,
       timestamp: Date.now(),
     });
@@ -87,8 +96,8 @@ const setupRecaptcha = () => {
     // send email via emailjs
     emailjs
       .send("service_rjgtrdr", "template_vru0qpj", {
-        to_email: emailStudent,
-        name: nameStudent,
+        to_email: emailMentor,
+        name: nameMentor,
         otp,
       })
       .then(() => {
@@ -96,13 +105,15 @@ const setupRecaptcha = () => {
         alert("Email OTP sent!");
       })
       .catch((err) => alert("Email send error: " + err.text));
+      setLoader(false)
   }
 
   // ---------- VERIFY EMAIL OTP ----------
   async function verifyEmailOtpBtn() {
+    setLoader(true)
     if (!otpEmail) return alert("Enter OTP");
 
-    const docSnap = await getDoc(doc(db, "emailOtps", emailStudent));
+    const docSnap = await getDoc(doc(db, "emailOtps", emailMentor));
     if (!docSnap.exists()) return alert("No OTP found for this email");
 
     if (docSnap.data().otp === otpEmail) {
@@ -111,16 +122,18 @@ const setupRecaptcha = () => {
     } else {
       alert("Incorrect OTP");
     }
+    setLoader(false)
   }
 
   // ---------- SEND PHONE OTP ----------
 function sendMobileOtpBtn() {
-  if (!mobileStudent) return alert("Enter mobile number");
+  setLoader(true)
+  if (!mobileMentor) return alert("Enter mobile number");
 
   setupRecaptcha();
   const appVerifier = window.recaptchaVerifier;
 
-  signInWithPhoneNumber(auth, mobileStudent, appVerifier)
+  signInWithPhoneNumber(auth, mobileMentor, appVerifier)
     .then((confirmationResult) => {
       setConfirmationResult(confirmationResult);
       alert("OTP sent successfully!");
@@ -129,11 +142,13 @@ function sendMobileOtpBtn() {
       console.error(error);
       alert("Error sending OTP: " + error.message);
     });
+    setLoader(false)
 }
 
 
   // ---------- VERIFY PHONE OTP ----------
 function verifyMobileOtpBtn() {
+  setLoader(true)
   if (!confirmationResult) return alert("Please send OTP first");
 
   confirmationResult
@@ -150,6 +165,7 @@ function verifyMobileOtpBtn() {
       console.error(error);
       alert("Invalid OTP");
     });
+    setLoader(false)
 }
 
 
@@ -186,8 +202,8 @@ function verifyMobileOtpBtn() {
         <input
           type="email"
           placeholder="Enter Your Email"
-          value={emailStudent}
-          onChange={(e) => setEmailStudent(e.target.value)}
+          value={emailMentor}
+          onChange={(e) => setemailMentor(e.target.value)}
           required
         />
         <button type="button" onClick={sendEmailOtpBtn}>
@@ -212,8 +228,8 @@ function verifyMobileOtpBtn() {
         <input
           type="text"
           placeholder="Enter Mobile"
-          value={mobileStudent}
-          onChange={(e) => setMobileStudent(e.target.value)}
+          value={mobileMentor}
+          onChange={(e) => setmobileMentor(e.target.value)}
           required
         />
         
@@ -221,10 +237,25 @@ function verifyMobileOtpBtn() {
           Send OTP
         </button>
       </div>
+         <div id="recaptcha-container"></div>
+
+      <div className="verify-otp">
+        <input
+          type="text"
+          placeholder="Enter Mobile OTP"
+          value={otpPhone}
+          onChange={(e) => setOtpPhone(e.target.value)}
+          required
+        />
+        <button type="button" onClick={verifyMobileOtpBtn}>
+          Verify OTP
+        </button>
+      </div>
            <input type="text" placeholder='Enter Password' onChange={(e) => { onChangeHandlerPassword(e) }} value={passwordMentor} required />
            <button type='submit'> Submit</button>
    
          </form>
+         {loader==true&&<Loader />}
    </>
   )
 }

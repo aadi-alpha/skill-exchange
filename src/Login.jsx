@@ -32,7 +32,7 @@ const Login = () => {
           <img src={logo} alt="skillx logo" />
           <input type="text" placeholder='Enter user id' autoComplete="off" required onChange={(e) => { onChangeHandlerEmail(e) }} value={inputEmail} />
           <input type="text" placeholder='Enter your password' autoComplete="off" required onChange={(e) => { onChangeHandlerPassword(e) }} value={inputPassword} />
-          <h3>Don't have any account? <Link to='/register'>Register Now&nbsp;Now</Link></h3>
+          <h3>Don't have any account? <Link to='/register'>Register&nbsp;Now</Link></h3>
           <button type='submit'>Login</button>
         </form>
         <h3><Link >Forgotten Password</Link></h3>

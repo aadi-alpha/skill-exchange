@@ -4,6 +4,7 @@ import StudentRegister from './components/StudentRegister'
 
 import OrganizationRegister from './components/OrganizationRegister'
 import MentorRegister from './components/MentorRegister'
+import Loader from './components/loader'
 
 const Register = () => {
     const [role, setrole] = useState('')

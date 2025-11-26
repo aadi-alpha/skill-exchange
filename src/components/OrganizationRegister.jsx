@@ -1,5 +1,11 @@
-import React, { useState } from 'react'
-import Register from '../Register'
+import React, { useEffect, useState } from "react";
+import emailjs from "@emailjs/browser";
+
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { db } from "../authFirebase/firebase";
+import { auth } from "../authFirebase/firebase";
+import { RecaptchaVerifier } from "firebase/auth";
+import { signInWithPhoneNumber } from "firebase/auth";
 
 const OrganizationRegister = ({role}) => {
 
@@ -46,6 +52,125 @@ const OrganizationRegister = ({role}) => {
       passwordId: ''
   
     }
+
+     const [confirmationResult, setConfirmationResult] = useState(null);
+      const [emailOtpSent, setEmailOtpSent] = useState(false);
+      const [generatedEmailOtp, setGeneratedEmailOtp] = useState("");
+      const [emailVerified, setEmailVerified] = useState(false);
+      const [mobileVerified, setMobileVerified] = useState(false);
+    
+      // -------------------- INIT ReCAPTCHA ----------------------
+    
+    
+      // Init EmailJS
+      useEffect(() => {
+        emailjs.init("O1eqMF__l75Le_ffM"); // your public key
+      }, []);
+    const setupRecaptcha = () => {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: (response) => {
+            console.log("reCAPTCHA solved", response);
+          },
+        }
+      );
+    };
+    
+      // ---------- SEND EMAIL OTP ----------
+      async function sendEmailOtpBtn() {
+        
+        if (!emailOrganization) return alert("Enter email");
+    setLoader(true)
+        const otp = Math.floor(100000 + Math.random() * 900000).toString();
+        setGeneratedEmailOtp(otp);
+    
+        // Store otp in Firestore
+        await setDoc(doc(db, "emailOtps", emailOrganization), {
+          otp,
+          timestamp: Date.now(),
+          
+        });
+    
+        // send email via emailjs
+        emailjs
+          .send("service_rjgtrdr", "template_vru0qpj", {
+            to_email: emailOrganization,
+            name: nameOrganization,
+            otp,
+          })
+          .then(() => {
+            setEmailOtpSent(true);
+            alert("Email OTP sent!");
+          })
+          .catch((err) => alert("Email send error: " + err.text));
+          setLoader(false)
+      }
+    
+      // ---------- VERIFY EMAIL OTP ----------
+      async function verifyEmailOtpBtn() {
+        
+        if (!otpEmail) return alert("Enter OTP");
+    setLoader(true)
+        const docSnap = await getDoc(doc(db, "emailOtps", emailOrganization));
+        if (!docSnap.exists()) return alert("No OTP found for this email");
+    
+        if (docSnap.data().otp === otpEmail) {
+          setEmailVerified(true);
+          alert("Email verified!");
+        } else {
+          alert("Incorrect OTP");
+        }
+        setLoader(false)
+      }
+    
+      // ---------- SEND PHONE OTP ----------
+    function sendMobileOtpBtn() {
+      
+      if (!mobileOrganization) return alert("Enter mobile number");
+    setLoader(true)
+      setupRecaptcha();
+      const appVerifier = window.recaptchaVerifier;
+    
+      signInWithPhoneNumber(auth, mobileOrganization, appVerifier)
+        .then((confirmationResult) => {
+          setConfirmationResult(confirmationResult);
+          alert("OTP sent successfully!");
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("Error sending OTP: " + error.message);
+        });
+        setLoader(false)
+    }
+    
+    
+      // ---------- VERIFY PHONE OTP ----------
+    function verifyMobileOtpBtn() {
+      
+      if (!confirmationResult) return alert("Please send OTP first");
+    setLoader(true)
+      confirmationResult
+        .confirm(otpPhone)
+        .then((result) => {
+          setMobileVerified(true); // mark mobile as verified
+          alert("Phone verified successfully!");
+          console.log(result.user);
+    
+          // Optional: reset reCAPTCHA
+          if (window.recaptchaVerifier) window.recaptchaVerifier.clear();
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("Invalid OTP");
+        });
+        setLoader(false)
+    }
+    
+
+
     function onSubmitHandler(e) {
       e.preventDefault()
       OrganizationRegisterData.name = nameOrganization
@@ -67,6 +192,7 @@ const OrganizationRegister = ({role}) => {
       setOtpPhone('')
   
     }
+    const [loader,setLoader]=useState(false)
     return (
       <>
         <form className='registerForm' onSubmit={(e) => { onSubmitHandler(e) }}>
@@ -78,8 +204,8 @@ const OrganizationRegister = ({role}) => {
         <input
           type="email"
           placeholder="Enter Your Email"
-          value={emailStudent}
-          onChange={(e) => setEmailStudent(e.target.value)}
+          value={emailOrganization}
+          onChange={(e) => setemailOrganization(e.target.value)}
           required
         />
         <button type="button" onClick={sendEmailOtpBtn}>
@@ -104,8 +230,8 @@ const OrganizationRegister = ({role}) => {
         <input
           type="text"
           placeholder="Enter Mobile"
-          value={mobileStudent}
-          onChange={(e) => setMobileStudent(e.target.value)}
+          value={mobileOrganization}
+          onChange={(e) => setmobileOrganization(e.target.value)}
           required
         />
         
@@ -132,7 +258,7 @@ const OrganizationRegister = ({role}) => {
 
           <input type="text" placeholder='Enter Password' onChange={(e) => { onChangeHandlerPassword(e) }} value={passwordOrganization} required />
           <button type='submit'> Submit</button>
-  
+  {loader==true&&<Loader />}
         </form>
       </>
   )

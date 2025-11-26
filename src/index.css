@@ -339,6 +339,7 @@ width: 100vw;
   align-items: center;
   flex-direction: column;
   gap: 20px;
+  box-sizing: border-box;
   text-align: center;
   padding: 5vw;
   margin-top: 20px;
@@ -436,3 +437,50 @@ padding: 0;
 
 }
 
+
+/* loader style */
+
+
+.loader-main{
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: +9;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  
+}
+.bg-main-loader{
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  background-color: white;
+  opacity: 0.4;
+}
+.loader{
+  position: absolute;
+  background-color: transparent;
+  opacity: 1;
+  height: 80px;
+  width: 80px;
+  top: 46%;
+  left: 46%;
+  border-radius: 50%;
+  border: 10px solid black;
+  border-top-color: transparent;
+
+   z-index: +99999;
+  animation: animateLoader 2s linear infinite;
+   
+}
+@keyframes animateLoader{
+  0%{
+    transform: rotate(0deg);
+    
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+  
+}
