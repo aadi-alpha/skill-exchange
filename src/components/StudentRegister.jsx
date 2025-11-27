@@ -146,10 +146,14 @@ const StudentRegister = ({ role }) => {
       mobileNum: mobileStudent,
       passwordId: passwordStudent,
     };
-    set(ref(db, "Students/1001"), {
-      StudentRegisterData
-    })
-    alert("Registered Successfully 🎉");
+    try {
+      set(ref(db, "Students/1001"), {
+        StudentRegisterData
+
+      })
+      alert("Registered Successfully 🎉");
+    } catch (err) { console.log(err) }
+
     console.log(StudentRegisterData);
 
     // RESET
