@@ -31,18 +31,20 @@ const StudentRegister = ({ role }) => {
   useEffect(() => {
     emailjs.init("O1eqMF__l75Le_ffM"); // your public key
   }, []);
-  const setupRecaptcha = () => {
+const setupRecaptcha = () => {
+  if (!window.recaptchaVerifier) {
     window.recaptchaVerifier = new RecaptchaVerifier(
       auth,
       "recaptcha-container",
       {
         size: "invisible",
-        callback: (response) => {
-          console.log("reCAPTCHA solved", response);
-        },
+        callback: () => console.log("reCAPTCHA solved"),
       }
     );
-  };
+
+    window.recaptchaVerifier.render();
+  }
+};
 
   // ---------- SEND EMAIL OTP ----------
   async function sendEmailOtpBtn() {
