@@ -6,6 +6,7 @@ import { db } from "../authFirebase/firebase";
 import { auth } from "../authFirebase/firebase";
 import { RecaptchaVerifier } from "firebase/auth";
 import { signInWithPhoneNumber } from "firebase/auth";
+import Loader from "./loader";
 
 const OrganizationRegister = ({role}) => {
 
