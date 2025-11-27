@@ -31,20 +31,20 @@ const StudentRegister = ({ role }) => {
   useEffect(() => {
     emailjs.init("O1eqMF__l75Le_ffM"); // your public key
   }, []);
-const setupRecaptcha = () => {
-  if (!window.recaptchaVerifier) {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      auth,
-      "recaptcha-container",
-      {
-        size: "invisible",
-        callback: () => console.log("reCAPTCHA solved"),
-      }
-    );
+  const setupRecaptcha = () => {
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: () => console.log("reCAPTCHA solved"),
+        }
+      );
 
-    window.recaptchaVerifier.render();
-  }
-};
+      window.recaptchaVerifier.render();
+    }
+  };
 
   // ---------- SEND EMAIL OTP ----------
   async function sendEmailOtpBtn() {
@@ -148,13 +148,14 @@ const setupRecaptcha = () => {
       mobileNum: mobileStudent,
       passwordId: passwordStudent,
     };
-    try {
-      set(ref(db, "Students/1001"), {
-        StudentRegisterData
 
+    set(ref(realDb, "Students/1001"), StudentRegisterData)
+      .then(() => {
+        alert("Registered Successfully 🎉");
       })
-      alert("Registered Successfully 🎉");
-    } catch (err) { console.log(err) }
+      .catch((err) => console.log(err));
+
+
 
     console.log(StudentRegisterData);
 
