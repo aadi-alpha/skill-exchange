@@ -168,6 +168,14 @@ const StudentRegister = ({ role }) => {
     set(ref(realDb, "Students" +StudentId), StudentRegisterData)
       .then(() => {
         alert("Registered Successfully 🎉");
+         emailjs.send("service_rjgtrdr", "template_l3c853f", {
+    to_email: emailStudent,
+    nameStudent,
+    StudentId,
+    passwordStudent
+  })
+    .then(() => alert("Credentials sent via email"))
+    .catch(err => alert("Failed to send credentials: " + err.text));
       })
       .catch((err) => console.log(err));
 
