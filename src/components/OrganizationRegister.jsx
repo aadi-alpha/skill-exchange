@@ -43,7 +43,7 @@ const OrganizationRegister = ({ role }) => {
     setOtpPhone(e.target.value)
   }
   function onChangeHandlerAddress(e) {
-    setOtpPhone(e.target.value)
+    setAddressOrganization(e.target.value)
   }
 
 
@@ -211,7 +211,7 @@ const OrganizationRegister = ({ role }) => {
     // Organization ID Generator
     const count = valueOrganizations ? Object.keys(valueOrganizations).length : 0;
     const OrganizationId =
-      "STU" + Math.floor(1000 + Math.random() * 9000) + (count + 1);
+      "ORG" + Math.floor(1000 + Math.random() * 9000) + (count + 1);
 
     // Save to database
     await set(ref(realDb, `Organizations/${OrganizationId}`), OrganizationRegisterData)

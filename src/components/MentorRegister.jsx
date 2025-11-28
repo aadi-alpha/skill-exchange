@@ -218,7 +218,7 @@ function verifyMobileOtpBtn() {
     // Mentor ID Generator
     const count = valueMentors ? Object.keys(valueMentors).length : 0;
     const MentorId =
-      "STU" + Math.floor(1000 + Math.random() * 9000) + (count + 1);
+      "MENT" + Math.floor(1000 + Math.random() * 9000) + (count + 1);
 
     // Save to database
     await set(ref(realDb, `Mentors/${MentorId}`), MentorRegisterData)
