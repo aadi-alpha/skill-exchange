@@ -18,7 +18,7 @@ const OrganizationRegister = ({role}) => {
     const [passwordOrganization, setpasswordOrganization] = useState('')
     const [otpEmail, setOtpEmail] = useState('')
     const [otpPhone, setOtpPhone] = useState('')
-  
+  const [loader,setLoader]=useState(false)
     function onChangeHandlerName(e) {
       setNameOrganization(e.target.value)
     }
@@ -195,7 +195,7 @@ const setupRecaptcha = () => {
       setOtpPhone('')
   
     }
-    const [loader,setLoader]=useState(false)
+    
     return (
       <>
         <form className='registerForm' onSubmit={(e) => { onSubmitHandler(e) }}>

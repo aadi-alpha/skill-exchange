@@ -7,23 +7,24 @@ import { auth } from "../authFirebase/firebase";
 import { RecaptchaVerifier } from "firebase/auth";
 import { signInWithPhoneNumber } from "firebase/auth";
 import { realDb } from "../authFirebase/firebase";
-import { ref, set } from "firebase/database";
+import { ref, set, get, onValue } from "firebase/database";
 import Loader from "./loader";
 
 const StudentRegister = ({ role }) => {
+
   const [nameStudent, setNameStudent] = useState("");
   const [emailStudent, setEmailStudent] = useState("");
   const [mobileStudent, setMobileStudent] = useState("");
   const [passwordStudent, setPasswordStudent] = useState("");
   const [otpEmail, setOtpEmail] = useState("");
   const [otpPhone, setOtpPhone] = useState("");
-
+  const [loader, setLoader] = useState(false)
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [emailOtpSent, setEmailOtpSent] = useState(false);
   const [generatedEmailOtp, setGeneratedEmailOtp] = useState("");
   const [emailVerified, setEmailVerified] = useState(false);
   const [mobileVerified, setMobileVerified] = useState(false);
-
+  const [StudentId, setStudentId] = useState();
   // -------------------- INIT ReCAPTCHA ----------------------
 
 
@@ -31,6 +32,8 @@ const StudentRegister = ({ role }) => {
   useEffect(() => {
     emailjs.init("O1eqMF__l75Le_ffM"); // your public key
   }, []);
+
+
   const setupRecaptcha = () => {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
@@ -94,7 +97,7 @@ const StudentRegister = ({ role }) => {
 
   // ---------- SEND PHONE OTP ----------
   function sendMobileOtpBtn() {
-
+    setLoader(true)
     if (!mobileStudent) return alert("Enter mobile number");
     setLoader(true)
     setupRecaptcha();
@@ -133,11 +136,16 @@ const StudentRegister = ({ role }) => {
       });
     setLoader(false)
   }
+  const valueCounter = () => {
 
+  }
+  valueCounter()
 
   // -------------------- SUBMIT FORM ----------------------
   function onSubmitHandler(e) {
+    setLoader(true)
     e.preventDefault();
+
 
     if (!emailVerified || !mobileVerified)
       return alert("Verify both email & mobile first");
@@ -149,7 +157,15 @@ const StudentRegister = ({ role }) => {
       passwordId: passwordStudent,
     };
 
-    set(ref(realDb, "Students/1001"), StudentRegisterData)
+    onValue(ref(realDb, "Students"), (snapshotStudents) => {
+
+
+      const valueStudents = snapshotStudents.val()
+      const count = valueStudents ? Object.keys(valueStudents).length : 0
+      setStudentId(("STU" + Math.floor(1000 + Math.random() * 9000) + 0 + (count + 1)))
+
+    })
+    set(ref(realDb, "Students" +StudentId), StudentRegisterData)
       .then(() => {
         alert("Registered Successfully 🎉");
       })
@@ -168,7 +184,7 @@ const StudentRegister = ({ role }) => {
     setOtpPhone("");
 
   }
-  const [loader, setLoader] = useState(false)
+
   return (
     <form className="registerForm" onSubmit={onSubmitHandler}>
       <h3>Registering as {role}</h3>
