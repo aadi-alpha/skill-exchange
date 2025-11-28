@@ -6,6 +6,8 @@ import { db } from "../authFirebase/firebase";
 import { auth } from "../authFirebase/firebase";
 import { RecaptchaVerifier } from "firebase/auth";
 import { signInWithPhoneNumber } from "firebase/auth";
+import { realDb } from "../authFirebase/firebase";
+import { ref, set, get, onValue } from "firebase/database";
 import Loader from "./loader";
 
 const MentorRegister = ({role}) => {
@@ -172,27 +174,78 @@ function verifyMobileOtpBtn() {
 
 
 
-     function onSubmitHandler(e) {
-       e.preventDefault()
-       MentorRegisterData.name = nameMentor
-       MentorRegisterData.EducationDetails=EduDetailsMentor
-       MentorRegisterData.Address=AddressMentor
-       MentorRegisterData.email = emailMentor
-       MentorRegisterData.mobileNum = mobileMentor
-       MentorRegisterData.passwordId = passwordMentor
-   
-       alert("Registered Successfully")
-       console.log(MentorRegisterData)
-       setNameMentor('')
-       setEduDetailsMentor('')
-    
-       setemailMentor('')
-       setmobileMentor('')
-       setpasswordMentor('')
-       setOtpEmail('')
-       setOtpPhone('')
-   
-     }
+    async function onSubmitHandler(e) {
+    e.preventDefault();
+    setLoader(true);
+
+    if (!emailVerified || !mobileVerified) {
+      setLoader(false);
+      return alert("Verify both email & mobile first");
+    }
+
+    const MentorRegisterData = {
+      name: nameMentor,
+      Education :EduDetailsMentor,
+      Address:AddressMentor,
+      email: emailMentor,
+      mobileNum: mobileMentor,
+      passwordId: passwordMentor,
+    };
+
+
+    // 🔍 Check existing users
+    const snapshotMentors = await get(ref(realDb, "Mentors"));
+    const valueMentors = snapshotMentors.val();
+
+    if (valueMentors) {
+      const usersArray = Object.values(valueMentors);
+
+      // check duplicates
+      const emailExists = usersArray.some((u) => u.email === emailMentor);
+      const mobileExists = usersArray.some((u) => u.mobileNum === mobileMentor);
+
+      if (emailExists) {
+        setLoader(false);
+        return alert("Email already exists. Try another one.");
+      }
+
+      if (mobileExists) {
+        setLoader(false);
+        return alert("Mobile number already exists. Try another one.");
+      }
+    }
+
+    // Mentor ID Generator
+    const count = valueMentors ? Object.keys(valueMentors).length : 0;
+    const MentorId =
+      "STU" + Math.floor(1000 + Math.random() * 9000) + (count + 1);
+
+    // Save to database
+    await set(ref(realDb, `Mentors/${MentorId}`), MentorRegisterData)
+      .then(() => {
+        alert("Registered Successfully 🎉");
+
+        emailjs.send("service_rjgtrdr", "template_l3c853f", {
+          to_email: emailMentor,
+          userId: MentorId,   // must match template variable name
+          password: passwordMentor, // must match template variable name
+          name: nameMentor,
+        })
+
+          .then(() => alert("Credentials sent to email"));
+      })
+      .catch((err) => console.log(err));
+
+    // RESET
+    setNameMentor("");
+    setemailMentor("");
+    setmobileMentor("");
+    setpasswordMentor("");
+    setOtpEmail("");
+    setOtpPhone("");
+
+    setLoader(false);
+  }
      return (
        <>
          <form className='registerForm' onSubmit={(e) => { onSubmitHandler(e) }}>

@@ -97,7 +97,7 @@ const StudentRegister = ({ role }) => {
 
   // ---------- SEND PHONE OTP ----------
   function sendMobileOtpBtn() {
-    setLoader(true)
+    
     if (!mobileStudent) return alert("Enter mobile number");
     setLoader(true)
     setupRecaptcha();
