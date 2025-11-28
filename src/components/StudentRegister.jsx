@@ -142,75 +142,75 @@ const StudentRegister = ({ role }) => {
   valueCounter()
 
   // -------------------- SUBMIT FORM ----------------------
-async function onSubmitHandler(e) {
-  e.preventDefault();
-  setLoader(true);
+  async function onSubmitHandler(e) {
+    e.preventDefault();
+    setLoader(true);
 
-  if (!emailVerified || !mobileVerified) {
-    setLoader(false);
-    return alert("Verify both email & mobile first");
-  }
-
-  const StudentRegisterData = {
-    name: nameStudent,
-    email: emailStudent,
-    mobileNum: mobileStudent,
-    passwordId: passwordStudent,
-  };
-
-  // 🔍 Check existing users
-  const snapshotStudents = await get(ref(realDb, "Students"));
-  const valueStudents = snapshotStudents.val();
-
-  if (valueStudents) {
-    const usersArray = Object.values(valueStudents);
-
-    // check duplicates
-    const emailExists = usersArray.some((u) => u.email === emailStudent);
-    const mobileExists = usersArray.some((u) => u.mobileNum === mobileStudent);
-
-    if (emailExists) {
+    if (!emailVerified || !mobileVerified) {
       setLoader(false);
-      return alert("Email already exists. Try another one.");
+      return alert("Verify both email & mobile first");
     }
 
-    if (mobileExists) {
-      setLoader(false);
-      return alert("Mobile number already exists. Try another one.");
+    const StudentRegisterData = {
+      name: nameStudent,
+      email: emailStudent,
+      mobileNum: mobileStudent,
+      passwordId: passwordStudent,
+    };
+
+    // 🔍 Check existing users
+    const snapshotStudents = await get(ref(realDb, "Students"));
+    const valueStudents = snapshotStudents.val();
+
+    if (valueStudents) {
+      const usersArray = Object.values(valueStudents);
+
+      // check duplicates
+      const emailExists = usersArray.some((u) => u.email === emailStudent);
+      const mobileExists = usersArray.some((u) => u.mobileNum === mobileStudent);
+
+      if (emailExists) {
+        setLoader(false);
+        return alert("Email already exists. Try another one.");
+      }
+
+      if (mobileExists) {
+        setLoader(false);
+        return alert("Mobile number already exists. Try another one.");
+      }
     }
-  }
 
-  // Student ID Generator
-  const count = valueStudents ? Object.keys(valueStudents).length : 0;
-  const StudentId =
-    "STU" + Math.floor(1000 + Math.random() * 9000) + (count + 1);
+    // Student ID Generator
+    const count = valueStudents ? Object.keys(valueStudents).length : 0;
+    const StudentId =
+      "STU" + Math.floor(1000 + Math.random() * 9000) + (count + 1);
 
-  // Save to database
-  await set(ref(realDb, `Students/${StudentId}` ), StudentRegisterData)
-    .then(() => {
-      alert("Registered Successfully 🎉");
+    // Save to database
+    await set(ref(realDb, `Students/${StudentId}`), StudentRegisterData)
+      .then(() => {
+        alert("Registered Successfully 🎉");
 
-      emailjs
-        .send("service_rjgtrdr", "template_l3c853f", {
+        emailjs.send("service_rjgtrdr", "template_l3c853f", {
           to_email: emailStudent,
-          nameStudent,
-          StudentId,
-          passwordStudent,
+          userId: StudentId,   // must match template variable name
+          password: passwordStudent, // must match template variable name
+          name: nameStudent,
         })
-        .then(() => alert("Credentials sent to email"));
-    })
-    .catch((err) => console.log(err));
 
-  // RESET
-  setNameStudent("");
-  setEmailStudent("");
-  setMobileStudent("");
-  setPasswordStudent("");
-  setOtpEmail("");
-  setOtpPhone("");
+          .then(() => alert("Credentials sent to email"));
+      })
+      .catch((err) => console.log(err));
 
-  setLoader(false);
-}
+    // RESET
+    setNameStudent("");
+    setEmailStudent("");
+    setMobileStudent("");
+    setPasswordStudent("");
+    setOtpEmail("");
+    setOtpPhone("");
+
+    setLoader(false);
+  }
 
 
 
