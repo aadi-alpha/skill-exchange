@@ -50,16 +50,20 @@ const App = () => {
         <Route
           path="/student-dashboard/:id"
           element={
-            <StudentsParamsContext>
+            
+          <ProtectedRoute>
+              <StudentsParamsContext>
               <StudentDashLand />
             </StudentsParamsContext>
+          </ProtectedRoute>
           }
         />
         <Route
           path="/mentor-dashboard/:id"
           element={
-
+<ProtectedRoute>
             <MentorDashLand />
+            </ProtectedRoute>
 
           }
         />

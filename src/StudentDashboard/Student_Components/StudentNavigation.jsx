@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 
 const StudentNavigation = () => {
   return (
@@ -32,7 +33,12 @@ const StudentNavigation = () => {
             <a href="#">Events</a>
           </li>
         </ul>
-        <button className="logout-btn">Logout</button>
+        <button className="logout-btn" onClick={()=>{
+            localStorage.removeItem("loggedInUserSkillExchange")
+            window.location.reload()
+           return <Navigate to="/login" replace />
+            
+            }}>Logout</button>
       </div>
     </div>
   );
