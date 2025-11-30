@@ -8,7 +8,7 @@ import AuthProvider from './contextAPI/AuthContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
-    <HashRouter basename="/skill-exchange">
+    <HashRouter >
       <App />
     </HashRouter>
   </AuthProvider>
