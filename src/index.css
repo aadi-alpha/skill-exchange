@@ -13,25 +13,25 @@ html {
 
 .navLanding {
   height: 100px;
-  padding-inline: 6vw;
+  padding-inline: 3vw;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   position: fixed;
-  width: 88vw;
+  width: 100vw;
   background-color: white;
   z-index: 999;
+  box-sizing: border-box;
   top: 0;
   overflow-x: hidden;
 }
 
 .logo {
-  position: absolute;
+
   height: clamp(50px, 4vw, 60px);
 
-  left: 2.2vw;
-  top: auto;
-  bottom: auto;
+  margin-left: 2vw;
+
 }
 
 .logo img {
@@ -54,10 +54,10 @@ html {
 }
 
 .cta-nav {
-  position: absolute;
+
   display: flex;
   gap: 20px;
-  right: 2.5vw;
+  margin-right: 2vw;
 
 }
 
@@ -331,9 +331,9 @@ html {
 /* register  */
 .register-main {
 
-width: 100vw;
+  width: 100vw;
 
- overflow-x: hidden;
+  overflow-x: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -358,12 +358,12 @@ width: 100vw;
   gap: 20px;
   max-width: 400px;
   width: auto;
-width: 100%;
+  width: 100%;
   padding-block: 30px;
   border: 2px solid black;
   border-radius: 5px;
-padding-inline: clamp(15px,2vw,30px);
-box-sizing: border-box;
+  padding-inline: clamp(15px, 2vw, 30px);
+  box-sizing: border-box;
   align-items: center;
 
 }
@@ -399,7 +399,7 @@ box-sizing: border-box;
   height: clamp(45px, 3vw, 50px);
   max-width: 300px;
   width: 100%;
-    border-radius: 5px;
+  border-radius: 5px;
   padding: 10px;
   height: clamp(45px, 4vw, 50px);
   border: 2px solid black;
@@ -407,34 +407,38 @@ box-sizing: border-box;
   font-weight: bold;
   box-sizing: border-box;
 }
-.registerForm input::placeholder{
+
+.registerForm input::placeholder {
   font-weight: normal;
 }
-.registerForm button{
+
+.registerForm button {
   background-color: black;
   color: white;
   border: 2px solid black;
-  padding-inline:clamp(40px,4vw,50px) ;
+  padding-inline: clamp(40px, 4vw, 50px);
   letter-spacing: 1px;
-  height: clamp(45px,5vw,50px);
+  height: clamp(45px, 5vw, 50px);
   border-radius: 5px;
   font-weight: bold;
 
 }
-.verify-otp
-,.send-otp{
-display: flex;
-justify-content: center;
-align-items: center;
-max-width: 300px;
+
+.verify-otp,
+.send-otp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 300px;
   width: 100%;
   gap: 10px;
-  
+
 }
-.verify-otp button
-,.send-otp button{
-width: 200px;
-padding: 0;
+
+.verify-otp button,
+.send-otp button {
+  width: 200px;
+  padding: 0;
 
 }
 
@@ -442,7 +446,7 @@ padding: 0;
 /* loader style */
 
 
-.loader-main{
+.loader-main {
   position: absolute;
   height: 100vh;
   width: 100vw;
@@ -453,37 +457,235 @@ padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
 }
-.bg-main-loader{
+
+.bg-main-loader {
   height: 100vh;
   width: 100vw;
   position: absolute;
   background-color: white;
   opacity: 0.4;
 }
-.loader{
+
+.loader {
 
   background-color: transparent;
   opacity: 1;
   height: 80px;
   width: 80px;
- 
+
   border-radius: 50%;
   border: 10px solid black;
   border-top-color: transparent;
 
-   z-index: 99999;
+  z-index: 99999;
   animation: animateLoader 2s linear infinite;
-   
+
 }
-@keyframes animateLoader{
-  0%{
+
+@keyframes animateLoader {
+  0% {
     transform: rotate(0deg);
-    
+
   }
-  100%{
+
+  100% {
     transform: rotate(360deg);
   }
+
+}
+
+.navStudentDashboard {
+  border-bottom: 0.5px solid rgba(50, 50, 50, 0.47);
+  position: fixed;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  gap: 50px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  z-index: 999;
+}
+
+.nav-right {
+  display: flex;
+  flex-direction: row;
+justify-content: flex-end;
+  max-width: 400px;
+  width: 100%;
+  align-items: center;
+  overflow: hidden;
+  height: 60px;
+
+margin-left: auto;
+
+  gap: clamp(10px, 2vw, 30px);
+
+
+}
+
+.searchBarStud {
+  max-width: 400px;
+  width: 100%;
+  height: clamp(40px, 3vw, 50px);
+  padding-left: 20px;
+  border-radius: 50px;
+  border: 2px solid black;
+  margin-left: auto;
+}
+
+.searchBarStud::placeholder {
+  color: rgba(0, 0, 0, 0.419);
+}
+
+.fa-bell {
+
+  font-size: clamp(24px, 2vw, 30px);
+  color: black;
+
+}
+
+.hamburger {
+  display: none;
+  position: absolute;
+  margin-right: 3vw;
+  right: 3vw;
+  top: 30%;
+  flex-direction: column;
+}
+
+.hamburger div {
+  background-color: black;
+  width: clamp(30px, 2vw, 35px);
+  height: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+  opacity: 1;
+  transition: transform  0.3s ease-in-out,opacity 0.3s ease-in-out;
+
+ 
+
+
+}
+
+
+
+
+
+/*  */
+
+.navigation-dash-main {
+  display: flex;
+  flex-direction: row;
+  margin-left: 0vw;
   
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.main-left {
+  position: fixed;
+
+  border-right: 1px solid rgba(128, 128, 128, 0.705);
+  height: 100vh;
+  max-width: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-inline: clamp(10px,2vw,30px);
+  padding-top: 100px;
+  padding-bottom: 20px;
+
+  box-sizing: border-box;
+}
+
+.main-left ul {
+  list-style: none;
+
+}
+
+.main-left ul li {
+  height: 50px;
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: bold;
+  display: flex;
+  gap: 20px;
+  padding-inline: 10px;
+  border-radius: 5px;
+  padding-block: 5px;
+  transition: background-color 0.5s ease-in;
+  align-items: center;
+}
+
+.main-left ul li:hover {
+  background-color: rgba(0, 0, 0, 0.219);
+}
+
+.main-left ul li a {
+  text-decoration: none;
+  color: black;
+}
+
+.logout-btn {
+  background: black;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: clamp(16px, 2vw, 18px);
+  font-weight: 600;
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+
+  bottom: 30px;
+
+}
+
+.main-right {
+  margin-left: 350px;
+  padding-left: 50px;
+  padding-right: 2vw;
+  padding-block: 120px;
+  font-size: clamp(24px, 4vw, 30px);
+
+}
+
+@media(max-width:600px) {
+  .nav-right {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+
+  }
+  .navigation-dash-main{
+    margin-left: -100vw;
+
+  }
+  .main-left{
+    max-width: 240px;
+  }
+
+.menu-toggle:checked ~ .navigation-dash-main{
+  margin-left: 0vw;
+  transition: margin-left 0.3s ease-in-out;
+}
+}
+
+
+/* Animate Hamburger */
+.menu-toggle:checked + .navStudentDashboard .hamburger div:nth-child(1) {
+  transform: rotate(45deg) translate(7px, 7px);
+}
+
+.menu-toggle:checked + .navStudentDashboard .hamburger div:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle:checked + .navStudentDashboard .hamburger div:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
 }

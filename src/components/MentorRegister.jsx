@@ -223,7 +223,8 @@ function verifyMobileOtpBtn() {
     // Save to database
     await set(ref(realDb, `Mentors/${MentorId}`), MentorRegisterData)
       .then(() => {
-        alert("Registered Successfully 🎉");
+        alert("Registered Successfully 🎉 sending cerentials...wait...");
+        setLoader(true)
 
         emailjs.send("service_rjgtrdr", "template_l3c853f", {
           to_email: emailMentor,
@@ -232,7 +233,7 @@ function verifyMobileOtpBtn() {
           name: nameMentor,
         })
 
-          .then(() => alert("Credentials sent to email"));
+          .then(() => {alert("Credentials sent to email");setLoader(false)});
       })
       .catch((err) => console.log(err));
 
