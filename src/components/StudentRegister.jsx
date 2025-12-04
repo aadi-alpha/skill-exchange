@@ -152,10 +152,10 @@ const StudentRegister = ({ role }) => {
     }
 
     const StudentRegisterData = {
-      name: nameStudent,
-      email: emailStudent,
-      mobileNum: mobileStudent,
-      passwordId: passwordStudent,
+      name: nameStudent.trim(),
+      email: emailStudent.trim(),
+      mobileNum: mobileStudent.trim(),
+      passwordId: passwordStudent.trim(),
     };
 
     // 🔍 Check existing users
@@ -191,10 +191,10 @@ const StudentRegister = ({ role }) => {
         alert("Registered Successfully 🎉");
 
         emailjs.send("service_rjgtrdr", "template_l3c853f", {
-          to_email: emailStudent,
-          userId: StudentId,   // must match template variable name
-          password: passwordStudent, // must match template variable name
-          name: nameStudent,
+          to_email: emailStudent.trim(),
+          userId: StudentId.trim(),   // must match template variable name
+          password: passwordStudent.trim(), // must match template variable name
+          name: nameStudent.trim(),
         })
 
           .then(() => alert("Credentials sent to email"));

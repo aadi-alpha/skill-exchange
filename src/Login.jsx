@@ -19,14 +19,14 @@ const Login = () => {
 
     try {
       const student = studentData?.find(
-        (elem) => elem.id == inputId && elem.passwordId == inputPassword
+        (elem) => elem.id == inputId.trim() && elem.passwordId == inputPassword
       );
 
       const org = OrganizationData?.find(
 
         (elem) => {
          
-          return elem.id == inputId && elem.passwordId == inputPassword
+          return elem.id == inputId.trim() && elem.passwordId == inputPassword.trim()
         }
       );
 

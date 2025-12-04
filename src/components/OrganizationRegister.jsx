@@ -179,12 +179,12 @@ const OrganizationRegister = ({ role }) => {
     }
 
     const OrganizationRegisterData = {
-      name: nameOrganization,
-      RegisterationNum: regNumOrganization,
-      Address:AddressOrganization,
-      email: emailOrganization,
-      mobileNum: mobileOrganization,
-      passwordId: passwordOrganization,
+      name: nameOrganization.trim(),
+      RegisterationNum: regNumOrganization.trim(),
+      Address:AddressOrganization.trim(),
+      email: emailOrganization.trim(),
+      mobileNum: mobileOrganization.trim(),
+      passwordId: passwordOrganization.trim(),
     };
     // 🔍 Check existing users
     const snapshotOrganizations = await get(ref(realDb, "Organizations"));
@@ -219,10 +219,10 @@ const OrganizationRegister = ({ role }) => {
         alert("Registered Successfully 🎉");
 
         emailjs.send("service_rjgtrdr", "template_l3c853f", {
-          to_email: emailOrganization,
-          userId: OrganizationId,   // must match template variable name
-          password: passwordOrganization, // must match template variable name
-          name: nameOrganization,
+          to_email: emailOrganization.trim(),
+          userId: OrganizationId.trim(),   // must match template variable name
+          password: passwordOrganization.trim(), // must match template variable name
+          name: nameOrganization.trim(),
         })
 
           .then(() => alert("Credentials sent to email"));

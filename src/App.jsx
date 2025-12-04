@@ -8,7 +8,12 @@ import MentorDashLand from './MentorDashboard/MentorDashLand';
 import OrgDashLand from './OrganizationDashboard/OrgDashLand';
 import ProtectedRoute from './ProtectedRoute';
 import StudentsParamsContext from './contextAPI/StudentsParamsContext';
-
+import StudentProfile from './StudentDashboard/StudentLinks/StudentProfile';
+import StudentDashboard from './StudentDashboard/StudentLinks/StudentDashboard';
+import EventsStu from './StudentDashboard/StudentLinks/EventsStu';
+import MentorshipStu from './StudentDashboard/StudentLinks/MentorshipStu';
+import ProjectsStu from './StudentDashboard/StudentLinks/ProjectsStu';
+import SkillExchangeStu from './StudentDashboard/StudentLinks/SkillExchangeStu';
 const App = () => {
   const [role, setRole] = useState(null);
   const navigate = useNavigate();
@@ -22,20 +27,20 @@ const App = () => {
       if (userLoggedIn.role === "student") {
 
         navigate(`/student-dashboard/${userLoggedIn.id}`);
-     
+
 
       }
       else if (userLoggedIn.role === "mentor") {
         navigate(`/mentor-dashboard/${userLoggedIn.id}`);
-     
+
       }
       else if (userLoggedIn.role === "organization") {
         navigate(`/organization-dashboard/${userLoggedIn.id}`);
-      
+
       }
       else {
         alert("user not exist")
-       
+
       }
     }
   }, []);
@@ -47,28 +52,26 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
+        <Route path="/student-dashboard/:id/*" element={<ProtectedRoute> <StudentsParamsContext> <StudentDashLand /> </StudentsParamsContext> </ProtectedRoute>}>
+          <Route path='' element={<StudentProfile />} />
+          <Route path='dashboard' element={<StudentDashboard />} />
+          <Route path='skill-exchange' element={<SkillExchangeStu />} />
+          <Route path='projects' element={<ProjectsStu />} />
+          <Route path='mentorship' element={<MentorshipStu />} />
+          <Route path='events' element={<EventsStu />} />
+
+        </Route>
         <Route
-          path="/student-dashboard/:id"
+          path="/mentor-dashboard/:id/*"
           element={
-            
-          <ProtectedRoute>
-              <StudentsParamsContext>
-              <StudentDashLand />
-            </StudentsParamsContext>
-          </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/mentor-dashboard/:id"
-          element={
-<ProtectedRoute>
-            <MentorDashLand />
+            <ProtectedRoute>
+              <MentorDashLand />
             </ProtectedRoute>
 
           }
         />
         <Route
-          path="/organization-dashboard/:id"
+          path="/organization-dashboard/:id/*"
           element={
 
             <OrgDashLand />

@@ -184,12 +184,12 @@ function verifyMobileOtpBtn() {
     }
 
     const MentorRegisterData = {
-      name: nameMentor,
-      Education :EduDetailsMentor,
-      Address:AddressMentor,
-      email: emailMentor,
-      mobileNum: mobileMentor,
-      passwordId: passwordMentor,
+      name: nameMentor.trim(),
+      Education :EduDetailsMentor.trim(),
+      Address:AddressMentor.trim(),
+      email: emailMentor.trim(),
+      mobileNum: mobileMentor.trim(),
+      passwordId: passwordMentor.trim(),
     };
 
 
@@ -227,10 +227,10 @@ function verifyMobileOtpBtn() {
         setLoader(true)
 
         emailjs.send("service_rjgtrdr", "template_l3c853f", {
-          to_email: emailMentor,
-          userId: MentorId,   // must match template variable name
-          password: passwordMentor, // must match template variable name
-          name: nameMentor,
+          to_email: emailMentor.trim(),
+          userId: MentorId.trim(),   // must match template variable name
+          password: passwordMentor.trim(), // must match template variable name
+          name: nameMentor.trim(),
         })
 
           .then(() => {alert("Credentials sent to email");setLoader(false)});
