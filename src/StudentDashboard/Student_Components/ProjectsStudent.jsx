@@ -1,64 +1,50 @@
-import React from 'react'
+import React, { useContext, useState } from 'react';
+import { StudentDataContext } from '../../contextAPI/StudentsParamsContext';
+import AddProjects from '../../components/AddProjects';
 
 const ProjectsStudent = () => {
+  const [showComponentSkill, setShowComponentAddSkill] = useState(false);
+  const data = useContext(StudentDataContext)
+ 
+  const projectsStudent = data?.Projects || {}
+  const ProjectsArray = Object.entries(projectsStudent).map(([key,value])=>({
+    id:key,
+    ...value
+  }))
+
+  
   return (
     <div>
       <div className="projects-stu">
 
         <div className="projects-head">
           <h2>Projects :</h2>
-          <button>Upload Projects</button>
+          <button onClick={() => setShowComponentAddSkill(true)}>Upload Projects</button>
         </div>
 
         <div className="projects-collection">
 
-          <div className="projects-card">
+          {ProjectsArray.map((elem)=>{
+            return <div className="projects-card" key={elem.id}>
             <h2>
               <i className="fa-solid fa-trophy"></i>
-              <a href="">E-Commerce Website</a>
+              {elem.title}
             </h2>
-            <video src="" controls></video>
+            <img src={elem.certificateURL} alt="" />
             <h3>About Project:-</h3>
             <p>
-              An e-commerce website is an online platform that allows businesses to showcase and
-              sell products or services directly to customers. It provides features like product
-              listings, shopping cart, secure payments, and order tracking, enabling a seamless
-              and convenient shopping experience from anywhere, anytime.
+              {elem.description}
             </p>
           </div>
 
-          <div className="projects-card">
-            <h2>
-              <i className="fa-solid fa-trophy"></i>
-              <a href="">E-Commerce Website</a>
-            </h2>
-            <video src="" controls></video>
-            <h3>About Project:-</h3>
-            <p>
-              An e-commerce website is an online platform that allows businesses to showcase and
-              sell products or services directly to customers. It provides features like product
-              listings, shopping cart, secure payments, and order tracking, enabling a seamless
-              and convenient shopping experience from anywhere, anytime.
-            </p>
-          </div>
-
-          <div className="projects-card">
-            <h2>
-              <i className="fa-solid fa-trophy"></i>
-              <a href="">E-Commerce Website</a>
-            </h2>
-            <video src="" controls></video>
-            <h3>About Project:-</h3>
-            <p>
-              An e-commerce website is an online platform that allows businesses to showcase and
-              sell products or services directly to customers. It provides features like product
-              listings, shopping cart, secure payments, and order tracking, enabling a seamless
-              and convenient shopping experience from anywhere, anytime.
-            </p>
-          </div>
+          })}
+      
 
         </div>
       </div>
+        {showComponentSkill && (
+        <AddProjects close={() => setShowComponentAddSkill(false)} />
+      )}
     </div>
   )
 }

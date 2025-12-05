@@ -1,45 +1,36 @@
-import React, { useEffect, useState } from 'react'
-import { createContext } from 'react'
+import React, { useEffect, useState, createContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { ref, get } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 import { realDb } from "../authFirebase/firebase";
 import Loader from '../components/loader';
 
 export const StudentDataContext = createContext()
 
-
-
-
 const StudentsParamsContext = ({ children }) => {
     const [loader, setLoader] = useState(true)
     const StudentId = useParams()
-
-    const [loggedInStudentData, setLoggedInStudentData] = useState()
+    const [loggedInStudentData, setLoggedInStudentData] = useState(null)
 
     useEffect(() => {
-        async function fetchData() {
-            const studentSnapshot = await get(ref(realDb, `Students/${StudentId.id}`))
-            try {
-                if (studentSnapshot) {
-                    setLoggedInStudentData(studentSnapshot.val())
-                }
-                else {
-                    alert("please wait.....")
-                }
-            } catch (error) {
-                console.log(err)
-            }
-            finally {
-                setLoader(false); // stop loader
-            }
+        const studentRef = ref(realDb, `Students/${StudentId.id}`)
 
-        }
-        fetchData()
-    }, [])
+        const unsubscribe = onValue(studentRef, (snapshot) => {
+            if (snapshot.exists()) {
+                setLoggedInStudentData(snapshot.val())
+            } else {
+                console.log("No Data Found")
+            }
+            setLoader(false)
+        })
+
+        // cleanup listener on unmount
+        return () => unsubscribe()
+    }, [StudentId.id])
 
     if (loader) {
         return <Loader />
     }
+
     return (
         <StudentDataContext.Provider value={loggedInStudentData}>
             {children}

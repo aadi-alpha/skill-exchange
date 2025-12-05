@@ -517,6 +517,7 @@ html {
   background-color: white;
   z-index: 999;
   width: 100vw;
+   z-index: 99999999;
 }
 
 .nav-right {
@@ -591,6 +592,7 @@ html {
   flex-direction: row;
   margin-left: 0vw;
   background-color: white;
+ 
   transition: margin-left 0.3s ease-in-out;
 }
 
@@ -608,6 +610,7 @@ html {
   padding-top: 100px;
   padding-bottom: 80px;
   background-color: white;
+    z-index: 999;
   box-sizing: border-box;
 }
 
@@ -785,7 +788,7 @@ html {
   display: flex;
   flex-wrap: wrap;
   gap: clamp(10px, 2vw, 20px);
-  margin-top: -60px;
+  margin-top: -65px;
 
 }
 
@@ -801,7 +804,7 @@ html {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin-top: 10px;
+  margin-top: 5px;
   align-items: center;
   gap: 10px;
 
@@ -881,7 +884,7 @@ html {
   .main-right {
     margin-left: 0;
     padding-left: 2vw;
-    padding-right: 0vw;
+    padding-right: 2vw;
     padding-block: 120px;
     font-size: clamp(24px, 4vw, 30px);
     width: 100vw;
@@ -1495,7 +1498,8 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
+  padding: 5px;
 
 }
 
@@ -1949,3 +1953,63 @@ width: 400px;
 }
 
 /* mentorship flow  student-------------------------------------------------------------------------- */
+
+
+.edit-profile-Student{
+  position: fixed;
+  height: 100vh;
+width: 100%;
+  top: 80px;
+
+  z-index: 99999;
+  background-color: white;
+display: flex;
+flex-direction: column;
+gap: 10px;
+padding: 2vw;
+left: 0;
+}
+.edit-profile-Student h3{
+  font-size: clamp(20px,2vw,27px);
+}
+.edit-profile-Student h5{
+  font-size: clamp(16px,2vw,20px);
+  color: red;
+}
+.edit-profile-Student form{
+  width: 100%;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+
+}
+.edit-profile-Student form input{
+  padding-inline: clamp(8px,2vw,18px);
+  padding-block: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+
+}
+
+.edit-profile-Student form textarea{
+    padding-inline: clamp(8px,2vw,18px);
+  padding-block: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+
+}
+.close-btn{
+  background: white;
+  background-color: white;
+  position: absolute;
+  left: 85%;
+  top: 2%;
+  color: black;
+  font-weight: 30px;
+  width: 30px;
+  height: 20px;
+  border-radius: 5px;
+  border: 2px solid black;
+}

@@ -1,50 +1,74 @@
-import React from 'react'
-import logo from '../../assets/images/logo.png'
+import React, { useContext, useState } from 'react';
+import logo from '../../assets/images/logo.png';
+import AddSkills from '../../components/AddSkills';
+import { StudentDataContext } from '../../contextAPI/StudentsParamsContext';
 
 const StudentSkills = () => {
+
+  const [showComponentSkill, setShowComponentAddSkill] = useState(false);
+
+  const data = useContext(StudentDataContext);
+  console.log(data?.skills)
+  const skillsData = data?.skills || {};  // contains skills object (-Nsd334 : {...})
+
+  // Convert Firebase object → array
+  const skillsArray = Object.entries(skillsData).map(([key, value]) => ({
+    id: key,
+    ...value
+  }));
+  console.log(skillsArray[0])
+
   return (
     <div className="skills-stu">
+      
       <div className="skills-head">
         <h2>My Skills :</h2>
-        <button>Add New</button>
+        <button onClick={() => setShowComponentAddSkill(true)}>
+          Add New
+        </button>
       </div>
 
       <div className="skills-collection">
 
-        <div className="skills-card">
-          <h2><i className="fa-solid fa-trophy"></i> Frontend Designing</h2>
-          <img src={logo} alt="skill" />
-          <h3>Best in this:-</h3>
-          <ul>
-            <li>- Responsive and user friendly designs</li>
-            <li>- HTML, CSS & JavaScript Expertise</li>
-            <li>- UI/UX Optimization</li>
-          </ul>
-        </div>
-         <div className="skills-card">
-          <h2><i className="fa-solid fa-trophy"></i> Frontend Designing</h2>
-          <img src={logo} alt="skill" />
-          <h3>Best in this:-</h3>
-          <ul>
-            <li>- Responsive and user friendly designs</li>
-            <li>- HTML, CSS & JavaScript Expertise</li>
-            <li>- UI/UX Optimization</li>
-          </ul>
-        </div>
-         <div className="skills-card">
-          <h2><i className="fa-solid fa-trophy"></i> Frontend Designing</h2>
-          <img src={logo} alt="skill" />
-          <h3>Best in this:-</h3>
-          <ul>
-            <li>- Responsive and user friendly designs</li>
-            <li>- HTML, CSS & JavaScript Expertise</li>
-            <li>- UI/UX Optimization</li>
-          </ul>
-        </div>
+        {/* If no skills */}
+        {skillsArray.length === 0 && (
+          <h6><br /><br />No skills added yet</h6>
+        )}
+
+        {/* Loop skills */}
+        {skillsArray.map((skill) => (
+          <div className="skills-card" key={skill.id}>
+            <h2><i className="fa-solid fa-trophy"></i> {skill.title}</h2>
+
+            {/* Certificate image or default */}
+            <img 
+              src={skill.certificateURL ? skill.certificateURL : logo} 
+              alt="certificate"
+            />
+
+            <h3>Description:</h3>
+            <p>{skill.description}</p>
+{/* 
+            <a 
+              href={skill.certificateURL} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="view-certificate"
+            >
+              View Certificate
+            </a> */}
+          </div>
+        ))}
 
       </div>
-    </div>
-  )
-}
 
-export default StudentSkills
+      {/* Add Skills Modal */}
+      {showComponentSkill && (
+        <AddSkills close={() => setShowComponentAddSkill(false)} />
+      )}
+
+    </div>
+  );
+};
+
+export default StudentSkills;
