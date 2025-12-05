@@ -859,7 +859,7 @@ html {
   letter-spacing: 1px;
   color: black;
   transition: 0.3s ease-in-out;
-  background: linear-gradient(rgba(0, 0, 0, 0.171) 0%, rgba(255, 255, 255, 0.204) 100%);
+  background-color: white;
 
 }
 
