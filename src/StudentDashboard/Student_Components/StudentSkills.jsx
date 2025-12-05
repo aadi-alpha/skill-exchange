@@ -8,7 +8,7 @@ const StudentSkills = () => {
   const [showComponentSkill, setShowComponentAddSkill] = useState(false);
 
   const data = useContext(StudentDataContext);
-  console.log(data?.skills)
+
   const skillsData = data?.skills || {};  // contains skills object (-Nsd334 : {...})
 
   // Convert Firebase object → array
@@ -16,7 +16,7 @@ const StudentSkills = () => {
     id: key,
     ...value
   }));
-  console.log(skillsArray[0])
+
 
   return (
     <div className="skills-stu">
