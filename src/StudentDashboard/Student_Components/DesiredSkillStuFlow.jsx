@@ -41,7 +41,7 @@ const DesiredSkillStuFlow = () => {
 
         const updatedArray = currentSkills.filter((_, i) => i !== index);
 
-        await update(ref(db, `Students/${id}`), { desiredSkills: updatedArray });
+        await update(ref(realDb, `Students/${id}`), { desiredSkills: updatedArray });
     }
 
     const MyDesiredSkillsArray = data?.desiredSkills || [];

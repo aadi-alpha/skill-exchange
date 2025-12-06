@@ -30,7 +30,7 @@ const ProfileIntro = () => {
                     </div>
                     <div className="pr-int-stu">
                         <h2 id="name">{data?.name || "Student Name"}</h2>
-                        <p id="about">{data?.desciption || "Add about yourself"}</p>
+                        <p id="about">{data?.description || "Add about yourself"}</p>
                     </div>
 
                     <br />

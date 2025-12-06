@@ -11,8 +11,7 @@ const SkillExchangeTop = () => {
                     <SkillListMyFlow />
                     <DesiredSkillStuFlow />
                     
-            
-
+        
             </div>
         </div>
     )

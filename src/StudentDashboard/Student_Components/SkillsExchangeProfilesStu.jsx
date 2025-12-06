@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { realDb } from "../../authFirebase/firebase";
-import { get, ref } from "firebase/database";
+import { get, ref, onValue } from "firebase/database";
 import logo from '../../assets/images/logo.png'
 
 const SkillsExchangeProfilesStu = () => {
@@ -83,9 +83,6 @@ const SkillsExchangeProfilesStu = () => {
               </div>
             </div>
           })}
-
-
-          {/* Duplicate card blocks below if needed */}
         </div>
       </div>
     </div>
