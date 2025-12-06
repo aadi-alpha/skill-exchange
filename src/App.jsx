@@ -14,6 +14,11 @@ import EventsStu from './StudentDashboard/StudentLinks/EventsStu';
 import MentorshipStu from './StudentDashboard/StudentLinks/MentorshipStu';
 import ProjectsStu from './StudentDashboard/StudentLinks/ProjectsStu';
 import SkillExchangeStu from './StudentDashboard/StudentLinks/SkillExchangeStu';
+import OrganizationProfile from './OrganizationDashboard/OrganizationProfile';
+import OrganizationProjects from './OrganizationDashboard/OrganizationProjects';
+import OrganizationEvents from './OrganizationDashboard/OrganizationEvents';
+import OrganizatonDashboard from './OrganizationDashboard/OrganizatonDashboard';
+import OrganizationsParamsContext from './contextAPI/OrganizationParamsContext';
 const App = () => {
   const [role, setRole] = useState(null);
   const navigate = useNavigate();
@@ -73,11 +78,18 @@ const App = () => {
         <Route
           path="/organization-dashboard/:id/*"
           element={
-
-            <OrgDashLand />
+<ProtectedRoute><OrganizationsParamsContext><OrgDashLand /></OrganizationsParamsContext></ProtectedRoute>
+            
 
           }
-        />
+        >
+          <Route path='' element={<OrganizationProfile />} />
+          <Route path='dashboard' element={<OrganizatonDashboard />} />
+
+          <Route path='projects' element={<OrganizationProjects />} />
+
+          <Route path='events' element={<OrganizationEvents />} />
+        </Route>
 
 
       </Routes>

@@ -9,10 +9,13 @@ export const OrganizationDataContext = createContext()
 const OrganizationsParamsContext = ({ children }) => {
     const [loader, setLoader] = useState(true)
     const OrganizationId = useParams()
+    console.log(OrganizationId.id)
+   
     const [loggedInOrganizationData, setLoggedInOrganizationData] = useState(null)
 
     useEffect(() => {
         const OrganizationRef = ref(realDb, `Organizations/${OrganizationId.id}`)
+        
 
         const unsubscribe = onValue(OrganizationRef, (snapshot) => {
             if (snapshot.exists()) {
@@ -30,7 +33,7 @@ const OrganizationsParamsContext = ({ children }) => {
     if (loader) {
         return <Loader />
     }
-
+console.log(loggedInOrganizationData)
     return (
         <OrganizationDataContext.Provider value={loggedInOrganizationData}>
             {children}
