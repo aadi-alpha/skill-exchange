@@ -1,30 +1,25 @@
-import React, { useState } from 'react'
-import logo from '../assets/images/logo.png'
-import EditProfile from './EditProfile';
-import { useContext } from "react";
-import { StudentDataContext } from "../contextAPI/StudentsParamsContext"
+import React, {useState} from 'react'
+import logo from '../../assets/images/logo.png'
+import { useNavigate } from 'react-router-dom';
 
-/* */
-const ProfileIntro = () => {
-
-    const [showComponent, setShowComponent] = useState(false);
-    const data = useContext(StudentDataContext)
-
-
-    const skillsdata = data?.skills || {}
-
-    const skillBtnArray = Object.entries(skillsdata).map(([key, value]) => ({
-        id: key,
-        ...value
-    }))
-    console.log(data)
-
-
-
-    return (
-        <>
-
-            <div className="profile-intro-stu-outer">
+const ProfileViewHead = ({id}) => {
+     const navigate = useNavigate();
+     const [showComponent, setShowComponent] = useState(false);
+        const data = id
+    
+    
+        const skillsdata = data?.skills || {}
+    
+        const skillBtnArray = Object.entries(skillsdata).map(([key, value]) => ({
+            id: key,
+            ...value
+        }))
+        console.log(data)
+    
+  return (
+    <div>
+    <button onClick={()=>navigate(-1)} style={{background:"0", border:"0",fontWeight:"500",fontSize:"clamp(18px,2vw,24px", color:"Black",}}>back</button>
+       <div className="profile-intro-stu-outer">
                 <div className="profile-intro-stu">
                     <div className="profile-img-stu">
                         <img src={data?.profileImage || logo} alt="profile-image" />
@@ -62,14 +57,13 @@ const ProfileIntro = () => {
                     </button>
                     <button><a href={`mailto:${data?.email || ''}`}>Email</a>
                     </button>
-                    <button onClick={() => setShowComponent(true)}>Edit Profile</button>
-                    {showComponent && (
-                        <EditProfile close={() => setShowComponent(false)} />
-                    )}
+                    
+                   
                 </div>
             </div>
-        </>
-    )
+        
+    </div>
+  )
 }
 
-export default ProfileIntro
+export default ProfileViewHead
