@@ -2,13 +2,16 @@ import React, { useContext, useState } from 'react';
 import logo from '../../assets/images/logo.png';
 import AddSkills from '../../components/AddSkills';
 import { StudentDataContext } from '../../contextAPI/StudentsParamsContext';
+import { remove,ref } from 'firebase/database';
+import { realDb } from '../../authFirebase/firebase';
+import { useParams } from 'react-router-dom';
 
 const StudentSkills = () => {
 
   const [showComponentSkill, setShowComponentAddSkill] = useState(false);
 
   const data = useContext(StudentDataContext);
-
+const Uid = useParams()
   const skillsData = data?.skills || {};  // contains skills object (-Nsd334 : {...})
 
   // Convert Firebase object → array
@@ -16,11 +19,19 @@ const StudentSkills = () => {
     id: key,
     ...value
   }));
-
+  const deleteCard = (id) => {
+    remove(ref(realDb, `Students/${Uid.id}/skills/${id}`))
+      .then(() => {
+        console.log("Deleted successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="skills-stu">
-      
+
       <div className="skills-head">
         <h2>My Skills :</h2>
         <button onClick={() => setShowComponentAddSkill(true)}>
@@ -41,14 +52,14 @@ const StudentSkills = () => {
             <h2><i className="fa-solid fa-trophy"></i> {skill.title}</h2>
 
             {/* Certificate image or default */}
-            <img 
-              src={skill.certificateURL ? skill.certificateURL : logo} 
+            <img
+              src={skill.certificateURL ? skill.certificateURL : logo}
               alt="certificate"
             />
 
             <h3>Description:</h3>
             <p>{skill.description}</p>
-{/* 
+            {/* 
             <a 
               href={skill.certificateURL} 
               target="_blank" 
@@ -57,6 +68,7 @@ const StudentSkills = () => {
             >
               View Certificate
             </a> */}
+            <button className='DeleteBtn' onClick={() => { deleteCard(skill.id) }}><i class="fa-solid fa-trash"></i> Delete</button>
           </div>
         ))}
 

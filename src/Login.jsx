@@ -88,6 +88,7 @@ const Login = () => {
   }
   return (
     <>
+    <Link to={'/'} ><button className='backbutton'> <i class="fa-solid fa-hand-back-fist"></i> Back</button></Link>
       <div className="login-page">
         <h1>Skill Exchange Login</h1>
         <form className="login-page-content" autoComplete='off' onSubmit={(e) => { submitHandler(e) }}>

@@ -5,6 +5,7 @@ import StudentRegister from './components/StudentRegister'
 import OrganizationRegister from './components/OrganizationRegister'
 import MentorRegister from './components/MentorRegister'
 import Loader from './components/loader'
+import { Link } from 'react-router-dom'
 
 const Register = () => {
     const [role, setrole] = useState('')
@@ -14,8 +15,11 @@ const Register = () => {
     }
     return (
         <>
+         <Link to={'/login'}><button className='backbutton'><i class="fa-solid fa-hand-back-fist"></i> Back</button></Link>
             <div className="register-main">
+                
                 <h1>Register In SKill Exchange</h1>
+               
                 <div className="register-content">
                     <img src={logo} alt="skillx logo" />
                     <select name="" id="" placeholder='select role' onChange={(e) => { selectChangeHandler(e) }}>

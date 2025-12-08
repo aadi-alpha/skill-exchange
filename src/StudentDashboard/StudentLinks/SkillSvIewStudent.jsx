@@ -44,14 +44,7 @@ const SkillSvIewStudent = ({id}) => {
             <h3>Description:</h3>
             <p>{skill.description}</p>
 
-            <a 
-              href={skill.certificateURL} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="view-certificate"
-            >
-              View Certificate
-            </a>
+         
           </div>
         ))}
 

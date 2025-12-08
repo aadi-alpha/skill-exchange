@@ -2175,3 +2175,25 @@ background: black;
   z-index: 99;
 
 }
+.backbutton{
+ color: white;
+  margin-left: 2vw;
+  margin-top: 2vw;
+  font-size: clamp(14px,2vw,16px);
+  margin-bottom: 20px;
+  background-color: black;
+  background-origin: border-box;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding-inline: clamp(15px,2vw,25px);
+  font-weight: bold;
+  padding-block: 5px;
+}
+.DeleteBtn{
+  background-color: black;
+  border-radius: 5px;
+  padding-block: 8px;
+  border: 2px solid black;
+  color: white;
+  font-weight: bold;
+}

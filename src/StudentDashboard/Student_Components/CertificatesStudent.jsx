@@ -1,6 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { StudentDataContext } from '../../contextAPI/StudentsParamsContext';
 import AddAchievement from '../../components/AddAchievement';
+import { remove,ref } from 'firebase/database';
+import { realDb } from '../../authFirebase/firebase';
+import { useParams } from 'react-router-dom';
 
 const CertificatesStudent = () => {
   const [showComponentSkill, setShowComponentAddSkill] = useState(false);
@@ -10,6 +13,17 @@ const CertificatesStudent = () => {
     id: Key,
     ...value
   }))
+  const Uid = useParams()
+  const deleteCard = (id) => {
+    console.log(id)
+     remove(ref(realDb, `Students/${Uid.id}/Achievements/${id}`))
+      .then(() => {
+        console.log("Deleted successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
@@ -33,6 +47,7 @@ const CertificatesStudent = () => {
               <p>
                 {ele.description}
               </p>
+              <button className='DeleteBtn' onClick={()=>{deleteCard(ele.id)}}><i class="fa-solid fa-trash"></i> Delete</button>
             </div>
           })}
 
