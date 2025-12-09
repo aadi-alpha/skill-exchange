@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { realDb } from '../../authFirebase/firebase'
 import { get, ref, onValue } from 'firebase/database'
+import { useParams } from 'react-router-dom'
 
 const ProjectsStu = () => {
   const [projects, setProjects] = useState([])
+  const {id} = useParams()
+  console.log(id)
 
   useEffect(() => {
     const orgRef = ref(realDb, 'Organizations')

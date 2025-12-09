@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import logo from '../../assets/images/logo.png'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ProfileViewHead = ({id}) => {
      const navigate = useNavigate();
@@ -18,7 +18,7 @@ const ProfileViewHead = ({id}) => {
     
   return (
     <div>
-    <button onClick={()=>navigate(-1)} style={{background:"0", border:"0",fontWeight:"500",fontSize:"clamp(18px,2vw,24px", color:"Black",}}>back</button>
+    <button style={{background:"0", border:"0",fontWeight:"500",fontSize:"clamp(16px,2vw,18px", color:"white", borderRadius:"5px" , padding:"5px" ,backgroundColor:"black", marginBottom:"10px"} } onClick={()=>navigate(-1)}>back</button>
        <div className="profile-intro-stu-outer">
                 <div className="profile-intro-stu">
                     <div className="profile-img-stu">
